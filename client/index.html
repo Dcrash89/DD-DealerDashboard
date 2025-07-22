@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DJI Dealer Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- react-big-calendar CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/react-big-calendar@1.13.0/lib/css/react-big-calendar.css">
+    <!-- react-grid-layout CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/react-grid-layout@1.4.4/css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/react-resizable@3.0.5/css/styles.css">
+    <script>
+      // Set theme on initial load to prevent FOUC (Flash of Unstyled Content)
+      if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      // Custom Tailwind config
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              'dji-blue': '#006FDC',
+              'dji-blue-dark': '#005CB8',
+              'gold': '#FFC700',
+              'silver': '#C0C0C0',
+              'bronze': '#CD7F32'
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Custom styles for react-big-calendar */
+      .rbc-calendar {
+        border-radius: 0.75rem; /* rounded-xl */
+        background-color: #fff;
+        border: 1px solid #e5e7eb; /* border-gray-200 */
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); /* shadow-sm */
+        color: #374151; /* text-gray-700 */
+      }
+      .dark .rbc-calendar {
+        background-color: #1f2937; /* dark:bg-gray-800 */
+        border-color: #374151; /* dark:border-gray-700 */
+        color: #d1d5db; /* dark:text-gray-300 */
+      }
+      .rbc-toolbar {
+        border-bottom: 1px solid #e5e7eb; /* border-gray-200 */
+        padding: 0.75rem 1rem;
+      }
+      .dark .rbc-toolbar {
+        border-color: #374151; /* dark:border-gray-700 */
+      }
+      .rbc-toolbar button {
+        background-color: transparent !important;
+        border: 1px solid #d1d5db !important; /* border-gray-300 */
+        color: #374151 !important; /* text-gray-700 */
+        padding: 0.3rem 0.75rem !important;
+        border-radius: 0.375rem !important;
+      }
+      .dark .rbc-toolbar button {
+        border-color: #4b5563 !important; /* dark:border-gray-600 */
+        color: #d1d5db !important; /* dark:text-gray-300 */
+      }
+      .rbc-toolbar button:hover, .rbc-toolbar button:focus {
+        background-color: #f3f4f6 !important; /* hover:bg-gray-100 */
+      }
+      .dark .rbc-toolbar button:hover, .dark .rbc-toolbar button:focus {
+        background-color: #374151 !important; /* dark:hover:bg-gray-700 */
+      }
+      .rbc-toolbar button.rbc-active {
+        background-color: #006FDC !important;
+        border-color: #006FDC !important;
+        color: white !important;
+      }
+      .rbc-header {
+        border-bottom: 1px solid #e5e7eb; /* border-gray-200 */
+        padding: 0.5rem 0;
+        text-transform: capitalize;
+      }
+      .dark .rbc-header {
+        border-color: #374151; /* dark:border-gray-700 */
+      }
+      .rbc-day-bg {
+        border-left: 1px solid #e5e7eb; /* border-gray-200 */
+      }
+      .dark .rbc-day-bg {
+        border-color: #374151; /* dark:border-gray-700 */
+      }
+      .rbc-day-bg:first-child {
+        border-left: none;
+      }
+      .rbc-month-row {
+         border-top: 1px solid #e5e7eb; /* border-gray-200 */
+      }
+       .dark .rbc-month-row {
+         border-color: #374151; /* dark:border-gray-700 */
+      }
+      .rbc-today {
+        background-color: #eff6ff; /* bg-blue-50 */
+      }
+      .dark .rbc-today {
+        background-color: rgba(59, 130, 246, 0.1);
+      }
+      .rbc-event {
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 0.8rem;
+        color: white;
+      }
+      .rbc-event-label {
+        font-weight: 500;
+      }
+      .rbc-off-range-bg {
+        background: #f8f9fa;
+      }
+      .dark .rbc-off-range-bg {
+        background: #111827; /* dark:bg-gray-900 */
+      }
+
+      /* Custom styles for react-grid-layout */
+      .react-grid-item.react-grid-placeholder {
+        background: rgba(0, 111, 220, 0.3) !important;
+        border-radius: 0.75rem;
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 150ms;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 dark:bg-gray-900 antialiased">
+    <div id="root"></div>
+    <div id="portal-root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
