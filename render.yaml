@@ -2,7 +2,7 @@ services:
   - type: web
     name: api
     env: node
-    buildCommand: npm install --workspaces --include-workspace-root && npm run build
+
     startCommand: npm start
     envVars:
       - key: DATABASE_URL
@@ -17,7 +17,6 @@ services:
         value: "false"
   - type: static
     name: client
-    buildCommand: npm install --workspaces --include-workspace-root && npm run build -w client
     publishPath: client/dist
     envVars:
       - key: VITE_API_URL

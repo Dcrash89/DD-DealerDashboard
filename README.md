@@ -68,15 +68,7 @@ Questo progetto include un file `render.yaml` per facilitare il deploy su [Rende
    - `CORS_ORIGIN` (opzionale)
    - `VITE_API_URL`
    - `NPM_CONFIG_PRODUCTION=false`
-2. Il processo di build su Render eseguirà:
-   ```bash
-   npm install --workspaces --include-workspace-root && npm run build
-   ```
-   per la web service e
-   ```bash
-   npm install --workspaces --include-workspace-root && npm run build -w client
-   ```
-   per lo static site.
+
 3. Il frontend viene pubblicato come static site dal percorso `client/dist`.
 
 Consulta `server/.env.example` e `client/.env.example` per i valori necessari.
