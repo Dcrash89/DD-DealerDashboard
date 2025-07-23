@@ -20,7 +20,7 @@ The project is a monorepo managed with npm workspaces.
 
 1.  **Install Dependencies:** From the root directory, run:
     ```bash
-    npm install
+    npm run install:all
     ```
     This will install dependencies for both the client and server.
 
@@ -68,7 +68,7 @@ Questo progetto include un file `render.yaml` per facilitare il deploy su [Rende
    - `CORS_ORIGIN` (opzionale)
    - `VITE_API_URL`
    - `NPM_CONFIG_PRODUCTION=false`
-2. Esegui il build automatico con `npm run build`.
+
 3. Il frontend viene pubblicato come static site dal percorso `client/dist`.
 
 Consulta `server/.env.example` e `client/.env.example` per i valori necessari.
