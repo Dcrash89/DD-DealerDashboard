@@ -20,7 +20,7 @@ The project is a monorepo managed with npm workspaces.
 
 1.  **Install Dependencies:** From the root directory, run:
     ```bash
-    npm install
+    npm run install:all
     ```
     This will install dependencies for both the client and server.
 
@@ -56,6 +56,30 @@ The project is a monorepo managed with npm workspaces.
     ```bash
     npm start
     ```
+
+## Deploy su Render
+
+Questo progetto include un file `render.yaml` per facilitare il deploy su [Render](https://render.com/).
+
+1. Imposta le variabili d'ambiente nei servizi Render:
+   - `DATABASE_URL`
+   - `JWT_SECRET`
+   - `NODE_ENV`
+   - `CORS_ORIGIN` (opzionale)
+   - `VITE_API_URL`
+   - `NPM_CONFIG_PRODUCTION=false`
+2. Il processo di build su Render eseguirà:
+   ```bash
+   npm install --workspaces --include-workspace-root && npm run build
+   ```
+   per la web service e
+   ```bash
+   npm install --workspaces --include-workspace-root && npm run build -w client
+   ```
+   per lo static site.
+3. Il frontend viene pubblicato come static site dal percorso `client/dist`.
+
+Consulta `server/.env.example` e `client/.env.example` per i valori necessari.
 
 ## Role Permissions
 
