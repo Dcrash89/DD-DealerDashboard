@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: api
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: NODE_ENV
+        value: production
+      - key: CORS_ORIGIN
+        sync: false
+      - key: NPM_CONFIG_PRODUCTION
+        value: "false"
+  - type: static
+    name: client
+    buildCommand: npm install && npm run build -w client
+    publishPath: client/dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+    headers:
+      - source: "/*"
+        headers:
+          - key: "Cache-Control"
+            value: "no-cache"
+    redirects:
+      - source: "/*"
+        destination: "/index.html"
+  - type: web
+    name: prisma-studio
+    env: node
+    buildCommand: npm install -w server
+    startCommand: npx prisma studio --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: NPM_CONFIG_PRODUCTION
+        value: "false"

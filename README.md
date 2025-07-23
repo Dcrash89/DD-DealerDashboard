@@ -57,6 +57,22 @@ The project is a monorepo managed with npm workspaces.
     npm start
     ```
 
+## Deploy su Render
+
+Questo progetto include un file `render.yaml` per facilitare il deploy su [Render](https://render.com/).
+
+1. Imposta le variabili d'ambiente nei servizi Render:
+   - `DATABASE_URL`
+   - `JWT_SECRET`
+   - `NODE_ENV`
+   - `CORS_ORIGIN` (opzionale)
+   - `VITE_API_URL`
+   - `NPM_CONFIG_PRODUCTION=false`
+2. Esegui il build automatico con `npm run build`.
+3. Il frontend viene pubblicato come static site dal percorso `client/dist`.
+
+Consulta `server/.env.example` e `client/.env.example` per i valori necessari.
+
 ## Role Permissions
 
 The application uses a role-based access control system implemented in the `roleActionGuard` middleware.

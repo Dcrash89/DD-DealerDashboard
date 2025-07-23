@@ -1,14 +1,12 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import apiRoutes from './routes';
-
-dotenv.config();
+import { env } from './config/env';
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = env.PORT;
 
-app.use(cors());
+app.use(cors({ origin: env.CORS_ORIGIN || '*', credentials: false }));
 app.use(express.json());
 
 app.get('/', (req: Request, res: Response) => {
