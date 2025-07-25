@@ -1,0 +1,136 @@
+// Prisma schema for Dealer Dashboard
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum UserRole {
+  ADMIN
+  DEALER
+  GUEST
+}
+
+enum DealerCategory {
+  S
+  A
+  B
+}
+
+enum FormStatus {
+  COMPLETED
+  PENDING
+  ARCHIVED
+}
+
+enum NoticePriority {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum NoticeType {
+  GENERAL
+  WEBINAR
+  IN_PERSON_EVENT
+}
+
+model User {
+  id       String   @id @default(uuid())
+  email    String   @unique
+  password String
+  role     UserRole
+  dealer   Dealer?  @relation(fields: [dealerId], references: [id])
+  dealerId String?
+}
+
+model Dealer {
+  id       String    @id @default(uuid())
+  sapId    String?   @unique
+  name     String
+  category DealerCategory
+  website  String
+  contacts Contact[]
+  users    User[]
+  submissions FormSubmission[]
+  salesForecasts SalesForecast[]
+}
+
+model Contact {
+  id       String  @id @default(uuid())
+  dealer   Dealer  @relation(fields: [dealerId], references: [id])
+  dealerId String
+  name     String
+  role     Json
+  email    String
+  phone    String?
+}
+
+model Goal {
+  id          String         @id @default(uuid())
+  category    DealerCategory
+  activityType String
+  count       Int
+  startDate   DateTime
+  endDate     DateTime
+}
+
+model Form {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  fields      Json
+  published   Boolean
+  dealerCanEditSubmissions Boolean
+  archived    Boolean  @default(false)
+  submissions FormSubmission[]
+}
+
+model FormSubmission {
+  id            String     @id @default(uuid())
+  form          Form       @relation(fields: [formId], references: [id])
+  formId        String
+  dealer        Dealer     @relation(fields: [dealerId], references: [id])
+  dealerId      String
+  submissionDate DateTime  @default(now())
+  status        FormStatus @default(PENDING)
+  data          Json
+  goalValue     String?
+  eventDate     DateTime?
+}
+
+model Notice {
+  id           String        @id @default(uuid())
+  type         NoticeType
+  title        String
+  content      String
+  eventDate    DateTime?
+  eventTime    String?
+  priority     NoticePriority
+  creationDate DateTime      @default(now())
+  participations Json?
+}
+
+model Product {
+  id       String   @id @default(uuid())
+  name     String
+  category String
+  forecasts SalesForecast[]
+}
+
+model SalesForecast {
+  id             String   @id @default(uuid())
+  dealer         Dealer   @relation(fields: [dealerId], references: [id])
+  dealerId       String
+  product        Product  @relation(fields: [productId], references: [id])
+  productId      String
+  year           Int
+  quarter        Int
+  forecastedUnits Int
+  actualUnits    Int
+  status         String
+}
