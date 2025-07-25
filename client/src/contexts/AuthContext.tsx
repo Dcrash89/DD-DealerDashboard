@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
 import { User } from '../types';
 import api from '../services/api';
+import { getCookie, setCookie, removeCookie } from '../utils/cookies';
 
 interface AuthContextType {
   user: User | null;
@@ -14,7 +15,7 @@ export const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+  const [token, setToken] = useState<string | null>(getCookie('token'));
   const [loading, setLoading] = useState(true);
 
   const fetchUser = useCallback(async () => {
@@ -25,7 +26,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(response.data);
       } catch (error) {
         console.error("Failed to fetch user", error);
-        localStorage.removeItem('token');
+        removeCookie('token');
         setToken(null);
         setUser(null);
       }
@@ -41,7 +42,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const response = await api.post('/auth/login', { email, password });
       const { token: newToken, user: loggedInUser } = response.data;
-      localStorage.setItem('token', newToken);
+      setCookie('token', newToken);
       setToken(newToken);
       setUser(loggedInUser);
       api.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
@@ -53,7 +54,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    removeCookie('token');
     setToken(null);
     setUser(null);
     delete api.defaults.headers.common['Authorization'];
