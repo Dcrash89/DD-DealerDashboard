@@ -16,7 +16,6 @@ const UsersView: React.FC<UsersViewProps> = ({ t }) => {
   const [editingUser, setEditingUser] = useState<User | null>(null);
 
   const [isResetModalOpen, setIsResetModalOpen] = useState(false);
-  const [newPassword, setNewPassword] = useState('');
 
   const handleOpenAddUser = () => {
     setEditingUser(null);
@@ -35,9 +34,8 @@ const UsersView: React.FC<UsersViewProps> = ({ t }) => {
   };
   
   const handleResetPassword = async (userId: string) => {
-    const tempPassword = await resetUserPassword(userId);
-    if (tempPassword) {
-      setNewPassword(tempPassword);
+    const success = await resetUserPassword(userId);
+    if (success) {
       setIsResetModalOpen(true);
     }
   };
@@ -110,7 +108,6 @@ const UsersView: React.FC<UsersViewProps> = ({ t }) => {
         isOpen={isResetModalOpen}
         onClose={() => setIsResetModalOpen(false)}
         t={t}
-        newPassword={newPassword}
       />
     </>
   );

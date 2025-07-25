@@ -25,7 +25,7 @@ interface DataContextType {
   createUser: (data: Omit<User, 'id' | 'dealer'>) => Promise<void>;
   updateUser: (userId: string, data: Partial<Omit<User, 'id' | 'dealer'>>) => Promise<void>;
   deleteUser: (userId: string) => Promise<void>;
-  resetUserPassword: (userId: string) => Promise<string | null>;
+  resetUserPassword: (userId: string) => Promise<boolean>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<{success: boolean, message: string}>;
   // Dashboard Management
   updateDashboardLayout: (newLayout: Layout[]) => void;
@@ -171,13 +171,13 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const resetUserPassword = async (userId: string): Promise<string | null> => {
+  const resetUserPassword = async (userId: string): Promise<boolean> => {
     try {
-      const response = await api.post(`/users/${userId}/reset-password`);
-      return response.data.newPassword;
+      await api.post(`/users/${userId}/reset-password`);
+      return true;
     } catch (error) {
       console.error("Failed to reset password", error);
-      return null;
+      return false;
     }
   };
 
