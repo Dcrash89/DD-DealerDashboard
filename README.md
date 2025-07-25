@@ -24,10 +24,10 @@ The project is a monorepo managed with npm workspaces.
     ```
     This will install dependencies for both the client and server.
 
-2.  **Database Setup:**
+2.  **Environment Configuration:**
     - Navigate to the `/server` directory.
-    - Copy the `.env.example` file to a new file named `.env`.
-    - Update the `DATABASE_URL` and `JWT_SECRET` variables in the `.env` file with your PostgreSQL connection string and a strong secret key.
+    - Copy the `server/.env.example` file to a new file named `server/.env`.
+    - Update the `DATABASE_URL`, `JWT_SECRET` and `CORS_ORIGIN` values in `server/.env` with your desired settings.
 
 3.  **Run Database Migrations:** From the root directory, run:
     ```bash
