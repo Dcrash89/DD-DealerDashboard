@@ -142,9 +142,9 @@ router.post('/:id/reset-password', authMiddleware, async (req: Request, res: Res
       where: { id },
       data: { password: hashedNewPassword },
     });
-    
-    // Return the plain text password for the admin to securely give to the user
-    res.json({ message: 'Password reset successfully', newPassword });
+
+    // Password should be communicated to the user via a secure channel
+    res.json({ message: 'Password reset successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Failed to reset password', error });
   }
